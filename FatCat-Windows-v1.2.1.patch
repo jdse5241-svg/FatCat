@@ -1,0 +1,2743 @@
+diff --git a/windows/CMakeLists.txt b/windows/CMakeLists.txt
+index 33f7497702ba6d5350ed24798d056b4cbedf0791..d6f468010d960b4634ca404a9760639802d52898 100644
+--- a/windows/CMakeLists.txt
++++ b/windows/CMakeLists.txt
+@@ -1,19 +1,21 @@
+ cmake_minimum_required(VERSION 3.20)
+-project(KuroCat LANGUAGES CXX)
++project(FatCat LANGUAGES CXX RC)
+ 
+ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
+-add_executable(KuroCat WIN32
++add_executable(FatCat WIN32
+     src/main.cpp
+     app.manifest
++    cursors.rc
+ )
+ 
+-target_compile_definitions(KuroCat PRIVATE UNICODE _UNICODE NOMINMAX)
++target_include_directories(FatCat PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
++target_compile_definitions(FatCat PRIVATE UNICODE _UNICODE NOMINMAX)
+ if(MSVC)
+-    target_compile_options(KuroCat PRIVATE /O2 /utf-8 /EHsc /W3 /MT)
++    target_compile_options(FatCat PRIVATE /O2 /utf-8 /EHsc /W3 /MT)
+ else()
+-    target_compile_options(KuroCat PRIVATE -O2 -municode)
++    target_compile_options(FatCat PRIVATE -O2 -municode)
+ endif()
+ 
+-target_link_libraries(KuroCat PRIVATE user32 gdi32 gdiplus shell32 advapi32)
++target_link_libraries(FatCat PRIVATE user32 gdi32 gdiplus shell32 advapi32)
+diff --git a/windows/Cursors/FatCat-Busy.ani b/windows/Cursors/FatCat-Busy.ani
+new file mode 100644
+index 0000000000000000000000000000000000000000..7fd8e9e8ca1184e3be06fedfc1ba0545ba13448d
+GIT binary patch
+literal 34420
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/windows/Cursors/FatCat-Busy.cur b/windows/Cursors/FatCat-Busy.cur
+new file mode 100644
+index 0000000000000000000000000000000000000000..5f5c194887337c6d18a695a2282677cd399475ee
+GIT binary patch
+literal 30894
+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
+B>}>!5
+
+literal 0
+HcmV?d00001
+
+diff --git a/windows/Cursors/FatCat-Cat-Hover.cur b/windows/Cursors/FatCat-Cat-Hover.cur
+new file mode 100644
+index 0000000000000000000000000000000000000000..e476e06a5410bde6d59efb646f1a43ceb3b88ed1
+GIT binary patch
+literal 30894
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/windows/Cursors/FatCat-Cursor.ps1 b/windows/Cursors/FatCat-Cursor.ps1
+new file mode 100644
+index 0000000000000000000000000000000000000000..125ff48384831536b205a70325b32d210fdba0fd
+--- /dev/null
++++ b/windows/Cursors/FatCat-Cursor.ps1
+@@ -0,0 +1,235 @@
++﻿param(
++    [ValidateSet('Apply', 'Restore')]
++    [string]$Mode
++)
++
++$ErrorActionPreference = 'Stop'
++$installDir = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'FatCatCursorEdition'
++$cursorDir = Join-Path $installDir 'Cursors'
++$logFile = Join-Path $installDir 'Setup.log'
++$backupFile = Join-Path $installDir 'Cursor-Backup.json'
++$previousNames = @(('Sweet' + 'Cat'), ('Kuro' + 'Cat'))
++$cursorKey = 'Control Panel\Cursors'
++$roles = [ordered]@{
++    Arrow = 'FatCat-Normal.cur'
++    Wait = 'FatCat-Busy.ani'
++    IBeam = 'FatCat-Text.cur'
++}
++
++function Get-CursorValues($Key) {
++    $values = @{}
++    $existing = $Key.GetValueNames()
++    foreach ($role in $roles.Keys) {
++        $present = $existing -contains $role
++        $kind = 'String'
++        $value = $null
++        if ($present) {
++            $kind = $Key.GetValueKind($role).ToString()
++            if ($kind -notin @('String', 'ExpandString')) {
++                throw "The existing Windows cursor value $role has an unexpected type."
++            }
++            $value = $Key.GetValue($role, $null, [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)
++        }
++        $values[$role] = @{ Present = $present; Kind = $kind; Value = $value }
++    }
++    return $values
++}
++
++function Set-CursorValues($Key, $Values) {
++    foreach ($role in $Values.Keys) {
++        $entry = $Values[$role]
++        if ($entry.Present) {
++            $Key.SetValue($role, [string]$entry.Value, [Microsoft.Win32.RegistryValueKind]$entry.Kind)
++        } else {
++            $Key.DeleteValue($role, $false)
++        }
++    }
++}
++
++function Read-CursorBackup($File) {
++    $data = Get-Content -LiteralPath $File -Raw | ConvertFrom-Json
++    if ($data.Version -ne 1) { throw 'The cursor backup has an unsupported format.' }
++    $values = @{}
++    foreach ($role in $roles.Keys) {
++        $entry = $data.Values.$role
++        if ($null -eq $entry -or $entry.Present -isnot [bool] -or $entry.Kind -notin @('String', 'ExpandString') -or ($entry.Present -and $entry.Value -isnot [string])) {
++            throw "The cursor backup is missing a valid value for $role."
++        }
++        $values[$role] = $entry
++    }
++    return $values
++}
++
++function Save-CursorBackup($Values) {
++    $temporary = Join-Path $installDir ('Cursor-Backup-' + [guid]::NewGuid().ToString() + '.tmp')
++    try {
++        $json = @{ Version = 1; Values = $Values } | ConvertTo-Json -Depth 4
++        [IO.File]::WriteAllText($temporary, $json)
++        if ([IO.File]::Exists($backupFile)) {
++            [IO.File]::Replace($temporary, $backupFile, [NullString]::Value)
++        } else {
++            [IO.File]::Move($temporary, $backupFile)
++        }
++    } finally {
++        if ([IO.File]::Exists($temporary)) { [IO.File]::Delete($temporary) }
++    }
++}
++
++function Initialize-CursorInterop {
++    if (-not ('FatCat.CursorInteropV2' -as [type])) {
++        Add-Type -Namespace FatCat -Name CursorInteropV2 -MemberDefinition @'
++[System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SystemParametersInfoW", ExactSpelling = true, SetLastError = true)]
++public static extern bool Reload(uint action, uint uParam, System.IntPtr value, uint flags);
++
++[System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "LoadCursorFromFileW", ExactSpelling = true, CharSet = System.Runtime.InteropServices.CharSet.Unicode, SetLastError = true)]
++public static extern System.IntPtr Load(string fileName);
++
++[System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
++public static extern bool SetSystemCursor(System.IntPtr cursor, uint id);
++
++[System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
++public static extern bool DestroyCursor(System.IntPtr cursor);
++
++public static int CheckFile(string fileName) {
++    var cursor = Load(fileName);
++    if (cursor == System.IntPtr.Zero) {
++        int error = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
++        return error != 0 ? error : -1;
++    }
++    DestroyCursor(cursor);
++    return 0;
++}
++
++public static int UseFile(string fileName, uint id) {
++    var cursor = Load(fileName);
++    if (cursor == System.IntPtr.Zero) {
++        int error = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
++        return error != 0 ? error : -1;
++    }
++    if (SetSystemCursor(cursor, id)) return 0;
++    int failure = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
++    return failure != 0 ? failure : -1;
++}
++'@
++    }
++}
++
++function Update-SystemCursors($Values) {
++    Initialize-CursorInterop
++    if ($null -eq $Values) {
++        if (-not [FatCat.CursorInteropV2]::Reload(0x0057, 0, [IntPtr]::Zero, 0)) {
++            throw 'Windows 未能重新加载原有指针。'
++        }
++        return
++    }
++
++    $ids = @{ Arrow = 32512; Wait = 32514; IBeam = 32513 }
++    foreach ($role in $roles.Keys) {
++        $code = [FatCat.CursorInteropV2]::UseFile($Values[$role].Value, $ids[$role])
++        if ($code -ne 0) {
++            throw "Windows 未能启用指针 $role（错误码 $code）。"
++        }
++    }
++}
++
++function Select-CursorFile($Role) {
++    Initialize-CursorInterop
++    $file = Join-Path $cursorDir $roles[$Role]
++    $code = [FatCat.CursorInteropV2]::CheckFile($file)
++    if ($code -ne 0 -and $Role -eq 'Wait') {
++        Write-Warning "Windows 无法载入忙碌动画（错误码 $code），改用静态忙碌指针。"
++        $file = Join-Path $cursorDir 'FatCat-Busy.cur'
++        $code = [FatCat.CursorInteropV2]::CheckFile($file)
++    }
++    if ($code -ne 0) {
++        throw "Windows 无法载入指针 $Role（错误码 $code）：$file"
++    }
++    return $file
++}
++
++function Test-InstalledCursor($Role, $Value, $Directory = $cursorDir, $Brand = 'FatCat') {
++    $file = $Brand + $roles[$Role].Substring('FatCat'.Length)
++    if ($Value -eq (Join-Path $Directory $file)) { return $true }
++    return $Role -eq 'Wait' -and $Value -eq (Join-Path $Directory ($Brand + '-Busy.cur'))
++}
++
++function Set-CursorSkin([bool]$Restore) {
++    $key = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey($cursorKey)
++    try {
++        $current = Get-CursorValues $key
++        $hasBackup = Test-Path -LiteralPath $backupFile -PathType Leaf
++        $original = if ($hasBackup) { Read-CursorBackup $backupFile } else { $current.Clone() }
++        $previousBackups = @{}
++        $desired = @{}
++        foreach ($role in $roles.Keys) {
++            $isCurrent = $current[$role].Present -and (Test-InstalledCursor $role $current[$role].Value)
++            $isPrevious = $false
++            foreach ($name in $previousNames) {
++                $previousDir = Join-Path (Split-Path -Parent $installDir) ($name + 'CursorEdition')
++                $previousCursorDir = Join-Path $previousDir 'Cursors'
++                if (-not $current[$role].Present -or
++                    -not (Test-InstalledCursor $role $current[$role].Value $previousCursorDir $name)) { continue }
++                if (-not $previousBackups.ContainsKey($name)) {
++                    $previousBackupFile = Join-Path $previousDir 'Cursor-Backup.json'
++                    if (-not (Test-Path -LiteralPath $previousBackupFile -PathType Leaf)) {
++                        throw '找不到旧版保存的原指针。可从 Windows 鼠标属性的「指针」页重新选择原来的方案。'
++                    }
++                    $previousBackups[$name] = Read-CursorBackup $previousBackupFile
++                }
++                $original[$role] = $previousBackups[$name][$role]
++                $isPrevious = $true
++                break
++            }
++            if ($isCurrent -and -not $hasBackup) {
++                throw '找不到原指针的备份。可从 Windows 鼠标属性的「指针」页重新选择原来的方案。'
++            }
++            if ($Restore) {
++                if ($isCurrent -or $isPrevious) { $desired[$role] = $original[$role] }
++            } else {
++                if (-not $isCurrent -and -not $isPrevious) { $original[$role] = $current[$role] }
++                $path = Select-CursorFile $role
++                $desired[$role] = @{ Present = $true; Kind = 'ExpandString'; Value = $path }
++            }
++        }
++        if (-not $Restore) { Save-CursorBackup $original }
++        try {
++            Set-CursorValues $key $desired
++            if ($Restore) { Update-SystemCursors $null }
++            else { Update-SystemCursors $desired }
++        } catch {
++            $failure = $_
++            Set-CursorValues $key $current
++            try { Update-SystemCursors } catch { Write-Warning 'Windows could not immediately reload the previous pointers.' }
++            throw $failure
++        }
++        if ($Restore) {
++            if ($hasBackup) { Remove-Item -LiteralPath $backupFile }
++            Write-Host '已恢复安装前的鼠标指针。'
++        } else {
++            Write-Host '已启用小黑猫鼠标指针。'
++        }
++    } finally {
++        $key.Dispose()
++    }
++}
++
++$mutex = [Threading.Mutex]::new($false, 'Local\FatCatCursorEditionSetup')
++$acquired = $false
++$logging = $false
++try {
++    try { $acquired = $mutex.WaitOne(0) }
++    catch [Threading.AbandonedMutexException] { $acquired = $true }
++    if (-not $acquired) { throw '另一个安装或指针设置窗口正在运行。' }
++    New-Item -ItemType Directory -Path $installDir -Force | Out-Null
++    Start-Transcript -LiteralPath $logFile -Append | Out-Null
++    $logging = $true
++    Set-CursorSkin ($Mode -eq 'Restore')
++} catch {
++    Write-Host $_.Exception.Message -ForegroundColor Red
++    if ($logging) { Write-Host "安装日志 $logFile" }
++    exit 1
++} finally {
++    if ($logging) { Stop-Transcript | Out-Null }
++    if ($acquired) { $mutex.ReleaseMutex() }
++    $mutex.Dispose()
++}
+diff --git a/windows/Cursors/FatCat-Normal.cur b/windows/Cursors/FatCat-Normal.cur
+new file mode 100644
+index 0000000000000000000000000000000000000000..f9528dd0ad297be52ad9d9ca0f13850f08667345
+GIT binary patch
+literal 30894
+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
+F{tu`gKuiDt
+
+literal 0
+HcmV?d00001
+
+diff --git a/windows/Cursors/FatCat-Pressed.ani b/windows/Cursors/FatCat-Pressed.ani
+new file mode 100644
+index 0000000000000000000000000000000000000000..fb8b38d1724fd3fe719235ef8bede9af7448505d
+GIT binary patch
+literal 17244
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/windows/Cursors/FatCat-Pressed.cur b/windows/Cursors/FatCat-Pressed.cur
+new file mode 100644
+index 0000000000000000000000000000000000000000..80357187e26d258880cda7b41bb213bb359ecc27
+GIT binary patch
+literal 30894
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/windows/Cursors/FatCat-Text.cur b/windows/Cursors/FatCat-Text.cur
+new file mode 100644
+index 0000000000000000000000000000000000000000..723674773553aac83c2ba17dd0882816026fc9f0
+GIT binary patch
+literal 30894
+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
+N37>`Vi<=hz{4W&94;=si
+
+literal 0
+HcmV?d00001
+
+diff --git a/windows/app.manifest b/windows/app.manifest
+index 89f8d71f5e819c0c1df9a82d25db46017d1fde9d..dd7cfd6b93e5e1045019c43fa5aeafcce9e260ab 100644
+--- a/windows/app.manifest
++++ b/windows/app.manifest
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
+-  <assemblyIdentity version="1.0.0.0" processorArchitecture="*" name="KuroCat" type="win32"/>
+-  <description>KuroCat Desktop Keyboard Pet</description>
++  <assemblyIdentity version="1.0.0.0" processorArchitecture="*" name="FatCat" type="win32"/>
++  <description>FatCat Desktop Keyboard Pet</description>
+   <asmv3:application>
+     <asmv3:windowsSettings>
+       <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/pm</dpiAware>
+diff --git a/windows/build.bat b/windows/build.bat
+index 1001fd543912b9d59612f25b468ade34d616d6be..6ac295c34f0df50f176a269f4de84ddfc4524a68 100644
+--- a/windows/build.bat
++++ b/windows/build.bat
+@@ -2,27 +2,32 @@
+ setlocal
+ cd /d "%~dp0"
+ 
+-echo ==> Building KuroCat.exe (Windows native C++17 / Win32 + GDI+ + Raw Input)...
++echo ==> Building FatCat.exe (Windows native C++17 / Win32 + GDI+ + Raw Input)...
+ 
+ where cl >nul 2>nul
+ if %ERRORLEVEL%==0 (
++    rc /nologo /fo cursors.res cursors.rc
++    if errorlevel 1 exit /b 1
+     cl /nologo /std:c++17 /O2 /MT /EHsc /utf-8 /DUNICODE /D_UNICODE ^
+-       /W3 src\main.cpp /Fe:KuroCat.exe ^
++       /W3 src\main.cpp cursors.res /Fe:FatCat.exe ^
+        /link /SUBSYSTEM:WINDOWS /MANIFEST:EMBED /MANIFESTINPUT:app.manifest ^
+        user32.lib gdi32.lib gdiplus.lib shell32.lib advapi32.lib
+-    if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+-    del /q main.obj 2>nul
+-    echo ==> Built successfully with MSVC: %~dp0KuroCat.exe
++    if errorlevel 1 exit /b 1
++    del /q main.obj cursors.res 2>nul
++    echo ==> Built successfully with MSVC: %~dp0FatCat.exe
+     exit /b 0
+ )
+ 
+ where g++ >nul 2>nul
+ if %ERRORLEVEL%==0 (
++    windres cursors.rc -O coff -o cursors.o
++    if errorlevel 1 exit /b 1
+     g++ -std=c++17 -O2 -mwindows -municode -DUNICODE -D_UNICODE -static ^
+-        src\main.cpp -o KuroCat.exe ^
++        src\main.cpp cursors.o -o FatCat.exe ^
+         -luser32 -lgdi32 -lgdiplus -lshell32 -ladvapi32
+-    if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
+-    echo ==> Built successfully with MinGW: %~dp0KuroCat.exe
++    if errorlevel 1 exit /b 1
++    del /q cursors.o
++    echo ==> Built successfully with MinGW: %~dp0FatCat.exe
+     exit /b 0
+ )
+ 
+diff --git a/windows/cursors.rc b/windows/cursors.rc
+new file mode 100644
+index 0000000000000000000000000000000000000000..a1b39ba377022ce9beb298b707c2739cc70c1552
+--- /dev/null
++++ b/windows/cursors.rc
+@@ -0,0 +1,13 @@
++#include "src/CursorResources.h"
++
++SWC_CURSOR_SCRIPT           RCDATA "Cursors/FatCat-Cursor.ps1"
++SWC_CURSOR_NORMAL           RCDATA "Cursors/FatCat-Normal.cur"
++SWC_CURSOR_TEXT             RCDATA "Cursors/FatCat-Text.cur"
++SWC_CURSOR_BUSY_ANIMATED    RCDATA "Cursors/FatCat-Busy.ani"
++SWC_CURSOR_BUSY             RCDATA "Cursors/FatCat-Busy.cur"
++SWC_CURSOR_HOVER            RCDATA "Cursors/FatCat-Cat-Hover.cur"
++SWC_CURSOR_PRESSED_ANIMATED  RCDATA "Cursors/FatCat-Pressed.ani"
++SWC_CURSOR_PRESSED           RCDATA "Cursors/FatCat-Pressed.cur"
++
++SWC_NATIVE_HOVER CURSOR "Cursors/FatCat-Cat-Hover.cur"
++SWC_NATIVE_PRESSED CURSOR "Cursors/FatCat-Pressed.cur"
+diff --git a/windows/src/CatPhysics.hpp b/windows/src/CatPhysics.hpp
+index a94ab26cbc40897fb451b6f550dca270afcd92b3..c990b8b9c10aab63d592d34fc25f7452a5ec0048 100644
+--- a/windows/src/CatPhysics.hpp
++++ b/windows/src/CatPhysics.hpp
+@@ -8,11 +8,8 @@
+ #include <algorithm>
+ #include "KeyMap.hpp"
+ #include "InputEngine.hpp"
+-
+-enum class CatCoatTheme : int {
+-    ClassicBlack = 0,
+-    Siamese = 1
+-};
++#include "PettingReaction.hpp"
++#include "ProductName.hpp"
+ 
+ enum class KeyboardTheme : int {
+     ClassicMilk = 0,
+@@ -22,7 +19,7 @@ enum class KeyboardTheme : int {
+ 
+ enum class EyeColorTheme : int {
+     NeonChartreuse = 0,
+-    SiameseBlue = 1,
++    GemBlue = 1,
+     WarmAmber = 2,
+     IceCyan = 3
+ };
+@@ -34,7 +31,6 @@ struct CatSettings {
+     bool fullClickThrough = false;
+     bool alwaysOnTop = true;
+     float scale = 1.0f;
+-    CatCoatTheme coatTheme = CatCoatTheme::ClassicBlack;
+     KeyboardTheme keyboardTheme = KeyboardTheme::ClassicMilk;
+     EyeColorTheme eyeTheme = EyeColorTheme::NeonChartreuse;
+     int posX = -99999;
+@@ -42,7 +38,13 @@ struct CatSettings {
+ 
+     void loadFromRegistry() {
+         HKEY hKey = nullptr;
+-        if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\KuroCat", 0, KEY_READ, &hKey) != ERROR_SUCCESS) return;
++        if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\FatCat", 0, KEY_READ, &hKey) != ERROR_SUCCESS) {
++            for (const auto& name : previousProductNames()) {
++                const auto previousKey = L"Software\\" + name;
++                if (RegOpenKeyExW(HKEY_CURRENT_USER, previousKey.c_str(), 0, KEY_READ, &hKey) == ERROR_SUCCESS) break;
++            }
++            if (!hKey) return;
++        }
+         auto readDword = [&](const wchar_t* name, DWORD defVal) -> DWORD {
+             DWORD val = defVal, sz = sizeof(val);
+             if (RegQueryValueExW(hKey, name, nullptr, nullptr, (LPBYTE)&val, &sz) == ERROR_SUCCESS) return val;
+@@ -54,7 +56,6 @@ struct CatSettings {
+         fullClickThrough = readDword(L"FullClickThrough", 0) != 0;
+         alwaysOnTop      = readDword(L"AlwaysOnTop", 1) != 0;
+         scale            = std::clamp((float)readDword(L"ScalePct", 100) / 100.0f, 0.5f, 2.0f);
+-        coatTheme        = (CatCoatTheme)std::clamp((int)readDword(L"CoatTheme", 0), 0, 1);
+         keyboardTheme    = (KeyboardTheme)std::clamp((int)readDword(L"KeyboardTheme", 0), 0, 2);
+         eyeTheme         = (EyeColorTheme)std::clamp((int)readDword(L"EyeTheme", 0), 0, 3);
+         DWORD hasPos     = readDword(L"HasPos", 0);
+@@ -67,7 +68,7 @@ struct CatSettings {
+ 
+     void saveToRegistry() const {
+         HKEY hKey = nullptr;
+-        if (RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\KuroCat", 0, nullptr, 0, KEY_WRITE, nullptr, &hKey, nullptr) != ERROR_SUCCESS) return;
++        if (RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\FatCat", 0, nullptr, 0, KEY_WRITE, nullptr, &hKey, nullptr) != ERROR_SUCCESS) return;
+         auto writeDword = [&](const wchar_t* name, DWORD val) {
+             RegSetValueExW(hKey, name, 0, REG_DWORD, (const BYTE*)&val, sizeof(val));
+         };
+@@ -77,7 +78,6 @@ struct CatSettings {
+         writeDword(L"FullClickThrough", fullClickThrough ? 1 : 0);
+         writeDword(L"AlwaysOnTop", alwaysOnTop ? 1 : 0);
+         writeDword(L"ScalePct", (DWORD)(scale * 100.0f + 0.5f));
+-        writeDword(L"CoatTheme", (DWORD)coatTheme);
+         writeDword(L"KeyboardTheme", (DWORD)keyboardTheme);
+         writeDword(L"EyeTheme", (DWORD)eyeTheme);
+         if (posX != -99999 && posY != -99999) {
+@@ -176,6 +176,9 @@ public:
+ 
+     float time = 0.0f;
+     float tailPhase = 0.0f;
++    PettingReaction::TailMotion annoyedTail;
++
++    float annoyedExpression() const { return std::clamp(annoyedPose_.value, 0.0f, 1.0f); }
+ 
+     float petHeadIntensity = 0.0f;
+     float petBodyIntensity = 0.0f;
+@@ -185,7 +188,8 @@ public:
+     float effectiveEyeClosure() const {
+         float petClose = std::max(petHeadIntensity, petBodyIntensity * 0.62f);
+         float sleepClose = sleepiness * 0.92f;
+-        return std::min(1.0f, std::max(blinkProgress_, std::max(petClose, sleepClose)));
++        return std::min(1.0f, std::max(blinkProgress_, std::max(petClose, sleepClose))) *
++            (1.0f - annoyedExpression());
+     }
+ 
+     bool isHappyClosedEyes() const { return petHeadIntensity > 0.45f; }
+@@ -244,6 +248,12 @@ public:
+         double now = nowSeconds();
+         lastPetTime_ = now;
+         sleepiness = 0.0f;
++        pettingReaction_.stroke(now);
++        if (pettingReaction_.annoyed()) {
++            petHeadIntensity = 0.0f;
++            petBodyIntensity = 0.0f;
++            return;
++        }
+ 
+         float energy = std::min(delta / 26.0f, 0.35f);
+         if (isHead) {
+@@ -274,6 +284,13 @@ public:
+         const auto& orderedKeys = engine.pressedOrder;
+ 
+         // 1. Petting decay & sparkles
++        if (!settings.petInteraction) pettingReaction_ = {};
++        pettingReaction_.update(now);
++        const bool annoyed = pettingReaction_.annoyed();
++        annoyedPose_.target = annoyed ? 1.0f : 0.0f;
++        annoyedPose_.step(dt, 200.0f, 24.0f);
++        annoyedTail = pettingReaction_.tailMotion(now);
++
+         if (now - lastPetTime_ > 0.28) {
+             petHeadIntensity = std::max(0.0f, petHeadIntensity - dt * 1.4f);
+             petBodyIntensity = std::max(0.0f, petBodyIntensity - dt * 1.2f);
+@@ -312,7 +329,7 @@ public:
+ 
+         // 2b. Fast Mouse Movement -> Hunting Mode (big round boba pupils + low crouch!)
+         float mouseSpeed = std::hypot(engine.mouseVelocity.x, engine.mouseVelocity.y);
+-        if (mouseSpeed > 460.0f && petHeadIntensity < 0.25f && petBodyIntensity < 0.25f) {
++        if (!annoyed && mouseSpeed > 460.0f && petHeadIntensity < 0.25f && petBodyIntensity < 0.25f) {
+             float boost = std::min(1.0f, (mouseSpeed - 460.0f) / 1100.0f);
+             huntIntensity.target = std::min(1.0f, huntIntensity.target + (0.45f + boost * 1.15f) * dt);
+             sleepiness = 0.0f;
+@@ -435,7 +452,8 @@ public:
+         bodyTilt.target = std::clamp(targetBodyTilt, -0.12f, 0.12f);
+         bodySquash.target = 1.0f - hunt * 0.11f;
+         headOffsetY.target = (leftPawTyping || rightPawTyping) ? 3.5f : (sleepiness * 5.0f + hunt * 10.5f);
+-        earFold.target = std::max(petHeadIntensity * 0.7f, petBodyIntensity * 0.45f) + sleepiness * 0.25f - hunt * 0.18f;
++        earFold.target = std::max(petHeadIntensity * 0.7f, petBodyIntensity * 0.45f) +
++            sleepiness * 0.25f - hunt * 0.18f + annoyedExpression() * 0.95f;
+         earTwitch.target = 0.0f;
+ 
+         bodyShiftX.step(dt, 140.0f, 18.0f);
+@@ -484,7 +502,7 @@ public:
+         headYaw.step(dt, headStiff, headDamp);
+         headPitch.step(dt, headStiff, headDamp);
+ 
+-        if (now - lastPetTime_ > 0.28) {
++        if (annoyed || now - lastPetTime_ > 0.28) {
+             headTilt.target = bodyTilt.target * 0.45f + headYaw.value * (0.11f + hunt * 0.05f) - headYaw.value * headPitch.value * 0.04f;
+         }
+         headTilt.step(dt, 130.0f, 16.0f);
+@@ -564,6 +582,8 @@ private:
+     float blinkTimer_ = 0.0f;
+ 
+     float petStrokeAccum_ = 0.0f;
++    PettingReaction pettingReaction_;
++    Spring1D annoyedPose_{0.0f};
+     double lastPetTime_ = 0.0;
+     bool isCurrentlyPetting_ = false;
+     float petSparkleCooldown_ = 0.0f;
+diff --git a/windows/src/CatRenderer.hpp b/windows/src/CatRenderer.hpp
+index b05b70e5ce65b8a7d88f097929fbab631ee98353..7705fde44dbc686a1f4ca3d04806d18da4b556a8 100644
+--- a/windows/src/CatRenderer.hpp
++++ b/windows/src/CatRenderer.hpp
+@@ -11,7 +11,8 @@
+ enum class CatHitZone {
+     None,
+     Head,
+-    Body
++    Body,
++    Accessories
+ };
+ 
+ class CatRenderer {
+@@ -32,7 +33,7 @@ public:
+         float bdy = (p.y - 196.0f) / 56.0f;
+         if (bdx * bdx + bdy * bdy <= 1.0f) return CatHitZone::Body;
+ 
+-        if (p.x >= 58.0f && p.x <= 294.0f && p.y >= 232.0f && p.y <= 296.0f) return CatHitZone::Body;
++        if (p.x >= 58.0f && p.x <= 294.0f && p.y >= 232.0f && p.y <= 296.0f) return CatHitZone::Accessories;
+         return CatHitZone::None;
+     }
+ 
+@@ -58,24 +59,24 @@ public:
+         drawKeyboard(g, physics, settings.keyboardTheme, settings.eyeTheme);
+ 
+         // 3. Tail
+-        drawTail(g, seatX, seatY, physics, settings.coatTheme);
++        drawTail(g, seatX, seatY, physics);
+ 
+         // 4. 3D-Projected Ears (behind crown silhouette)
+-        drawEarsLayer(g, headCenter, physics, settings.coatTheme);
++        drawEarsLayer(g, headCenter, physics);
+ 
+-        // 5. Unified C1-Continuous Silhouette (+ 2.5D Siamese Mask)
+-        drawUnifiedSilhouette(g, seatX, seatY, headCenter, breath, physics, settings.coatTheme);
++        // 5. Unified C1-Continuous Silhouette
++        drawUnifiedSilhouette(g, seatX, seatY, headCenter, breath, physics);
+ 
+         // 6. Hind Foot (3rd simultaneous key easter egg!)
+         if (physics.hindFootActive.value > 0.03f) {
+-            drawHindFoot(g, seatX, seatY, physics, settings.coatTheme);
++            drawHindFoot(g, seatX, seatY, physics);
+         }
+ 
+         // 7. 2.5D Eyes & Whiskers
+-        drawHeadFeatures(g, headCenter, physics, settings.eyeTheme, settings.coatTheme);
++        drawHeadFeatures(g, headCenter, physics, settings.eyeTheme);
+ 
+         // 8. Front Paws (Idle Sitting & Dynamic Reaching)
+-        drawFrontPaws(g, seatX, seatY, breath, physics, settings.coatTheme);
++        drawFrontPaws(g, seatX, seatY, breath, physics);
+ 
+         // 9. Floating Keycap Badges
+         if (settings.showKeyBadges) {
+@@ -90,17 +91,11 @@ private:
+     static Gdiplus::Color catBlack(BYTE a = 255)      { return Gdiplus::Color(a, 22, 22, 24); }
+     static Gdiplus::Color contourMint(BYTE a = 194)   { return Gdiplus::Color(a, 209, 235, 227); }
+     static Gdiplus::Color whiskerWhite(BYTE a = 174)  { return Gdiplus::Color(a, 224, 230, 235); }
+-    static Gdiplus::Color siameseCream(BYTE a = 255)  { return Gdiplus::Color(a, 241, 231, 213); }
+-    static Gdiplus::Color siameseLatte(BYTE a = 255)  { return Gdiplus::Color(a, 221, 203, 177); }
+-    static Gdiplus::Color siameseMocha(BYTE a = 255)  { return Gdiplus::Color(a, 115, 87, 69); }
+-    static Gdiplus::Color siamesePoint(BYTE a = 255)  { return Gdiplus::Color(a, 45, 33, 27); }
+-    static Gdiplus::Color siameseOutline(BYTE a = 224){ return Gdiplus::Color(a, 66, 48, 40); }
+-    static Gdiplus::Color siameseWhisker(BYTE a = 174){ return Gdiplus::Color(a, 92, 69, 56); }
+ 
+     static Gdiplus::Color eyePrimary(EyeColorTheme t, BYTE a = 255) {
+         switch (t) {
+             case EyeColorTheme::NeonChartreuse: return Gdiplus::Color(a, 201, 242, 64);
+-            case EyeColorTheme::SiameseBlue:    return Gdiplus::Color(a, 94, 199, 250);
++            case EyeColorTheme::GemBlue:    return Gdiplus::Color(a, 94, 199, 250);
+             case EyeColorTheme::WarmAmber:      return Gdiplus::Color(a, 250, 194, 56);
+             case EyeColorTheme::IceCyan:        return Gdiplus::Color(a, 115, 235, 245);
+         }
+@@ -315,20 +310,23 @@ private:
+ 
+     // MARK: - Tail
+ 
+-    static void drawTail(Gdiplus::Graphics& g, float seatX, float seatY, const CatPhysics& physics, CatCoatTheme coat) {
++    static void drawTail(Gdiplus::Graphics& g, float seatX, float seatY, const CatPhysics& physics) {
+         using namespace Gdiplus;
+         float p = physics.tailPhase;
+         float hunt = std::clamp(physics.huntIntensity.value, 0.0f, 1.0f);
+         float wag1 = std::sin(p) * (8.0f + hunt * 5.5f);
+         float wag2 = std::cos(p * 1.3f) * (6.0f + hunt * 4.5f);
+         float huntDrop = hunt * 14.0f;
++        const auto& annoyedTail = physics.annoyedTail;
+ 
+         PointF root(seatX + 34.0f, seatY - 6.0f);
+         PointF c1(seatX + 64.0f, seatY + 2.0f + wag1 * 0.35f + huntDrop * 0.4f);
+-        PointF c2(seatX + 66.0f + wag2 * 0.4f, seatY - 26.0f + wag1 * 0.7f + huntDrop);
+-        PointF tip(seatX + 91.0f + wag2 * 0.5f, seatY - 30.0f + wag1 * 0.85f + huntDrop);
++        PointF c2(seatX + 66.0f + wag2 * 0.4f + annoyedTail.swing * 11.0f,
++                  seatY - 26.0f + wag1 * 0.7f + huntDrop - annoyedTail.lift * 11.0f);
++        PointF tip(seatX + 91.0f + wag2 * 0.5f + annoyedTail.swing * 22.0f,
++                   seatY - 30.0f + wag1 * 0.85f + huntDrop - annoyedTail.lift * 27.0f);
+ 
+-        Pen tailPen(coat == CatCoatTheme::Siamese ? siamesePoint() : catBlack(), 11.0f);
++        Pen tailPen(catBlack(), 11.0f);
+         tailPen.SetStartCap(LineCapRound);
+         tailPen.SetEndCap(LineCapRound);
+         tailPen.SetLineJoin(LineJoinRound);
+@@ -337,7 +335,7 @@ private:
+ 
+     // MARK: - 3D-Projected Ears
+ 
+-    static void drawEarsLayer(Gdiplus::Graphics& g, Pt center, const CatPhysics& physics, CatCoatTheme coat) {
++    static void drawEarsLayer(Gdiplus::Graphics& g, Pt center, const CatPhysics& physics) {
+         using namespace Gdiplus;
+         GraphicsState st = g.Save();
+         g.TranslateTransform(center.x, center.y);
+@@ -348,12 +346,12 @@ private:
+         float fold = physics.earFold.value;
+         float twitch = physics.earTwitch.value * 0.045f;
+ 
+-        drawEar3D(g, true, yawRad, pitchRad, fold, twitch, coat);
+-        drawEar3D(g, false, yawRad, pitchRad, fold, -twitch, coat);
++        drawEar3D(g, true, yawRad, pitchRad, fold, twitch);
++        drawEar3D(g, false, yawRad, pitchRad, fold, -twitch);
+         g.Restore(st);
+     }
+ 
+-    static void drawEar3D(Gdiplus::Graphics& g, bool isLeft, float yawRad, float pitchRad, float fold, float twitch, CatCoatTheme coat) {
++    static void drawEar3D(Gdiplus::Graphics& g, bool isLeft, float yawRad, float pitchRad, float fold, float twitch) {
+         using namespace Gdiplus;
+         float sign = isLeft ? -1.0f : 1.0f;
+         float foldAngle = sign * (0.06f + fold * 0.34f) + twitch;
+@@ -373,13 +371,13 @@ private:
+         addQuadBezier(ear, tipR, { (outerBase.x + tipR.x) * 0.5f + sign * 2.5f, (outerBase.y + tipR.y) * 0.5f - 2.0f }, outerBase);
+         ear.CloseFigure();
+ 
+-        SolidBrush b(coat == CatCoatTheme::Siamese ? siamesePoint() : catBlack());
++        SolidBrush b(catBlack());
+         g.FillPath(&b, &ear);
+     }
+ 
+-    // MARK: - Unified C1-Continuous Cat Silhouette (+ Siamese 2.5D Face Mask)
++    // MARK: - Unified C1-Continuous Cat Silhouette
+ 
+-    static void drawUnifiedSilhouette(Gdiplus::Graphics& g, float seatX, float seatY, Pt headCenter, float breath, const CatPhysics& physics, CatCoatTheme coat) {
++    static void drawUnifiedSilhouette(Gdiplus::Graphics& g, float seatX, float seatY, Pt headCenter, float breath, const CatPhysics& physics) {
+         using namespace Gdiplus;
+         float yaw = physics.headYaw.value;
+         float pitch = physics.headPitch.value;
+@@ -422,53 +420,8 @@ private:
+         path.AddBezier(lCheek, H(leftCheekX - 1.5f, -14.0f), H(-26.0f + cheekShift * 0.3f, -30.0f + crownDrop), crown);
+         path.CloseFigure();
+ 
+-        if (coat == CatCoatTheme::ClassicBlack) {
+-            SolidBrush b(catBlack());
+-            g.FillPath(&b, &path);
+-        } else {
+-            GraphicsState cs = g.Save();
+-            g.SetClip(&path);
+-
+-            LinearGradientBrush bodyGrad(
+-                PointF(seatX, headCenter.y - 54.0f),
+-                PointF(seatX, seatY + 38.0f),
+-                siameseCream(),
+-                siameseLatte()
+-            );
+-            bodyGrad.SetWrapMode(WrapModeTileFlipXY);
+-            Color bodyCols[4] = { siameseCream(), siameseCream(), siameseLatte(), siameseLatte() };
+-            REAL bodyPos[4] = { 0.0f, 0.22f, 0.80f, 1.0f };
+-            bodyGrad.SetInterpolationColors(bodyCols, bodyPos, 4);
+-            g.FillPath(&bodyGrad, &path);
+-
+-            // 2.5D Rotating Seal-Point "挖煤" Face Mask!
+-            float yawRad = yaw * 0.50f;
+-            float pitchRad = pitch * 0.36f;
+-            Pt maskC = projectHead3D(0.0f, 2.5f, 27.0f, yawRad, pitchRad);
+-            float maskSX = std::max(0.76f, std::cos(yawRad * 0.7f)) * 1.18f;
+-            float maskSY = std::max(0.82f, std::cos(pitchRad * 0.7f)) * 0.88f;
+-
+-            GraphicsState ms = g.Save();
+-            g.TranslateTransform(headCenter.x, headCenter.y);
+-            g.RotateTransform(hTilt * RadToDeg);
+-            g.TranslateTransform(maskC.x, maskC.y);
+-            g.ScaleTransform(maskSX, maskSY);
+-
+-            GraphicsPath maskEllipse;
+-            maskEllipse.AddEllipse(-31.0f, -31.0f, 62.0f, 62.0f);
+-            PathGradientBrush maskBrush(&maskEllipse);
+-            Color cols[4] = { Color(0, 115, 87, 69), Color(178, 115, 87, 69), siamesePoint(245), siamesePoint(255) };
+-            REAL pos[4] = { 0.0f, 0.26f, 0.56f, 1.0f };
+-            maskBrush.SetInterpolationColors(cols, pos, 4);
+-            g.FillPath(&maskBrush, &maskEllipse);
+-
+-            g.Restore(ms);
+-            g.Restore(cs);
+-
+-            // Clean subtle warm-cocoa outline so Siamese pops on white & dark wallpapers
+-            Pen outPen(siameseOutline(), 1.5f);
+-            g.DrawPath(&outPen, &path);
+-        }
++        SolidBrush b(catBlack());
++        g.FillPath(&b, &path);
+ 
+         // Tucked hind paws at bottom
+         GraphicsState ps = g.Save();
+@@ -476,13 +429,13 @@ private:
+         g.RotateTransform(bTilt * RadToDeg);
+         g.ScaleTransform(sx, sy);
+ 
+-        SolidBrush pawBrush(coat == CatCoatTheme::Siamese ? siamesePoint() : catBlack());
++        SolidBrush pawBrush(catBlack());
+         g.FillEllipse(&pawBrush, -35.0f, 3.0f, 17.0f, 11.0f);
+         if (physics.hindFootActive.value < 0.35f) {
+             g.FillEllipse(&pawBrush, 18.0f, 3.0f, 17.0f, 11.0f);
+         }
+ 
+-        Pen rimPen(coat == CatCoatTheme::Siamese ? siameseCream(140) : contourMint(148), 1.3f);
++        Pen rimPen(contourMint(148), 1.3f);
+         rimPen.SetStartCap(LineCapRound); rimPen.SetEndCap(LineCapRound);
+         g.DrawArc(&rimPen, -34.0f, 1.0f, 15.0f, 15.0f, 15.0f, 150.0f);
+         if (physics.hindFootActive.value < 0.35f) {
+@@ -493,16 +446,16 @@ private:
+ 
+     // MARK: - 3rd Key Hind Foot
+ 
+-    static void drawHindFoot(Gdiplus::Graphics& g, float seatX, float seatY, const CatPhysics& physics, CatCoatTheme coat) {
++    static void drawHindFoot(Gdiplus::Graphics& g, float seatX, float seatY, const CatPhysics& physics) {
+         Pt hip = { seatX + 26.0f, seatY + 2.0f };
+         Pt target = physics.hindFoot.point();
+         Pt mid = { (hip.x + target.x) * 0.5f + 10.0f, (hip.y + target.y) * 0.5f - 8.0f };
+-        drawLimb(g, hip, mid, target, 15.0f, 12.0f, true, 0.85f * physics.hindFootActive.value, coat);
++        drawLimb(g, hip, mid, target, 15.0f, 12.0f, true, 0.85f * physics.hindFootActive.value);
+     }
+ 
+     // MARK: - 2.5D Eyes & Whiskers
+ 
+-    static void drawHeadFeatures(Gdiplus::Graphics& g, Pt center, const CatPhysics& physics, EyeColorTheme eyeTheme, CatCoatTheme coat) {
++    static void drawHeadFeatures(Gdiplus::Graphics& g, Pt center, const CatPhysics& physics, EyeColorTheme eyeTheme) {
+         using namespace Gdiplus;
+         GraphicsState st = g.Save();
+         g.TranslateTransform(center.x, center.y);
+@@ -511,13 +464,13 @@ private:
+         float yawRad = physics.headYaw.value * 0.50f;
+         float pitchRad = physics.headPitch.value * 0.36f;
+ 
+-        drawEye3D(g, true, yawRad, pitchRad, physics, eyeTheme, coat);
+-        drawEye3D(g, false, yawRad, pitchRad, physics, eyeTheme, coat);
+-        drawWhiskers3D(g, yawRad, pitchRad, physics, coat);
++        drawEye3D(g, true, yawRad, pitchRad, physics, eyeTheme);
++        drawEye3D(g, false, yawRad, pitchRad, physics, eyeTheme);
++        drawWhiskers3D(g, yawRad, pitchRad, physics);
+         g.Restore(st);
+     }
+ 
+-    static void drawEye3D(Gdiplus::Graphics& g, bool isLeft, float yawRad, float pitchRad, const CatPhysics& physics, EyeColorTheme eyeTheme, CatCoatTheme coat) {
++    static void drawEye3D(Gdiplus::Graphics& g, bool isLeft, float yawRad, float pitchRad, const CatPhysics& physics, EyeColorTheme eyeTheme) {
+         using namespace Gdiplus;
+         float sign = isLeft ? -1.0f : 1.0f;
+         Color eyeCol = eyePrimary(eyeTheme);
+@@ -590,22 +543,34 @@ private:
+             g.FillEllipse(&gb, px - pupilW * 0.22f - gr * 0.5f, py - pupilH * 0.22f - gr * 0.5f, gr * 2.0f, gr * 2.0f);
+         }
+ 
+-        // Eyelid closure mask (matches black face or Siamese espresso mask!)
++        // Eyelid closure mask
+         float closure = physics.effectiveEyeClosure();
+         if (closure > 0.02f) {
+             float lidH = (ry * 2.2f) * closure;
+-            SolidBrush lb(coat == CatCoatTheme::Siamese ? siamesePoint() : catBlack());
++            SolidBrush lb(catBlack());
+             g.FillRectangle(&lb, -rx - 2.0f, -ry - 2.0f, rx * 2.0f + 4.0f, lidH);
+         }
+ 
++        float annoyed = physics.annoyedExpression();
++        if (annoyed > 0.02f) {
++            const float lidY = -ry + annoyed * ry * 0.67f;
++            const float slant = annoyed * 4.8f * sign;
++            const PointF lid[] = {
++                {-rx - 1.0f, -ry - 1.0f}, {rx + 1.0f, -ry - 1.0f},
++                {rx + 1.0f, lidY - slant}, {-rx - 1.0f, lidY + slant}
++            };
++            SolidBrush lidBrush(catBlack());
++            g.FillPolygon(&lidBrush, lid, 4);
++        }
++
+         g.Restore(cs);
+         g.Restore(st);
+     }
+ 
+-    static void drawWhiskers3D(Gdiplus::Graphics& g, float yawRad, float pitchRad, const CatPhysics& physics, CatCoatTheme coat) {
++    static void drawWhiskers3D(Gdiplus::Graphics& g, float yawRad, float pitchRad, const CatPhysics& physics) {
+         using namespace Gdiplus;
+         float wiggle = std::sin(physics.time * 4.5f) * (std::max(physics.petHeadIntensity, physics.petBodyIntensity) * 1.2f);
+-        Pen pen(coat == CatCoatTheme::Siamese ? siameseWhisker() : whiskerWhite(), 1.05f);
++        Pen pen(whiskerWhite(), 1.05f);
+         pen.SetStartCap(LineCapRound); pen.SetEndCap(LineCapRound);
+ 
+         const float rows[3][3] = {
+@@ -628,7 +593,7 @@ private:
+ 
+     // MARK: - Front Paws
+ 
+-    static void drawFrontPaws(Gdiplus::Graphics& g, float seatX, float seatY, float breath, const CatPhysics& physics, CatCoatTheme coat) {
++    static void drawFrontPaws(Gdiplus::Graphics& g, float seatX, float seatY, float breath, const CatPhysics& physics) {
+         Pt lPos = physics.leftPaw.point();
+         Pt rPos = physics.rightPaw.point();
+ 
+@@ -639,40 +604,26 @@ private:
+         Pt rightShoulder = { seatX + 24.0f, seatY - 56.0f + breath };
+ 
+         if (lDist < 6.0f && !physics.leftPawOnMouse && !physics.leftPawTyping) {
+-            drawIdleFrontLeg(g, { seatX - 18.0f, seatY - 30.0f }, { seatX - 16.0f, seatY + 12.0f }, true, coat);
++            drawIdleFrontLeg(g, { seatX - 18.0f, seatY - 30.0f }, { seatX - 16.0f, seatY + 12.0f }, true);
+         } else {
+             Pt mid = { (leftShoulder.x + lPos.x) * 0.5f - (physics.leftPawOnMouse ? 8.0f : 4.0f),
+                        (leftShoulder.y + lPos.y) * 0.5f - 6.0f };
+-            drawLimb(g, leftShoulder, mid, lPos, 19.0f, 13.5f, false, 0.78f, coat);
++            drawLimb(g, leftShoulder, mid, lPos, 19.0f, 13.5f, false, 0.78f);
+         }
+ 
+         if (rDist < 6.0f && !physics.rightPawTyping) {
+-            drawIdleFrontLeg(g, { seatX + 18.0f, seatY - 30.0f }, { seatX + 16.0f, seatY + 12.0f }, false, coat);
++            drawIdleFrontLeg(g, { seatX + 18.0f, seatY - 30.0f }, { seatX + 16.0f, seatY + 12.0f }, false);
+         } else {
+             Pt mid = { (rightShoulder.x + rPos.x) * 0.5f + 4.0f, (rightShoulder.y + rPos.y) * 0.5f - 6.0f };
+-            drawLimb(g, rightShoulder, mid, rPos, 19.0f, 13.5f, true, 0.78f, coat);
++            drawLimb(g, rightShoulder, mid, rPos, 19.0f, 13.5f, true, 0.78f);
+         }
+     }
+ 
+-    static void drawIdleFrontLeg(Gdiplus::Graphics& g, Pt top, Pt bottom, bool isLeft, CatCoatTheme coat) {
++    static void drawIdleFrontLeg(Gdiplus::Graphics& g, Pt top, Pt bottom, bool isLeft) {
+         using namespace Gdiplus;
+         float sign = isLeft ? -1.0f : 1.0f;
+ 
+-        if (coat == CatCoatTheme::Siamese) {
+-            GraphicsPath lp;
+-            addRoundedRect(lp, bottom.x - 7.5f, top.y, 15.0f, bottom.y - top.y + 1.0f, 6.5f);
+-            float pad = 10.0f;
+-            float span = std::max(1.0f, (bottom.y + 2.0f) - top.y);
+-            float total = span + pad * 2.0f;
+-            LinearGradientBrush grad(PointF(bottom.x, top.y - pad), PointF(bottom.x, bottom.y + 2.0f + pad), siameseCream(0), siamesePoint(255));
+-            grad.SetWrapMode(WrapModeTileFlipXY);
+-            Color cols[5] = { siameseCream(0), siameseCream(0), siameseMocha(190), siamesePoint(255), siamesePoint(255) };
+-            REAL pos[5] = { 0.0f, pad / total, (pad + span * 0.52f) / total, (pad + span * 0.85f) / total, 1.0f };
+-            grad.SetInterpolationColors(cols, pos, 5);
+-            g.FillPath(&grad, &lp);
+-        }
+-
+-        Pen p(coat == CatCoatTheme::Siamese ? siameseOutline(158) : contourMint(), 1.45f);
++        Pen p(contourMint(), 1.45f);
+         p.SetStartCap(LineCapRound); p.SetEndCap(LineCapRound);
+ 
+         GraphicsPath p1;
+@@ -684,7 +635,7 @@ private:
+         g.DrawPath(&p, &p2);
+     }
+ 
+-    static void drawLimb(Gdiplus::Graphics& g, Pt start, Pt ctrl, Pt end, float startW, float endW, bool outlineOnLeft, float outlineAlpha, CatCoatTheme coat) {
++    static void drawLimb(Gdiplus::Graphics& g, Pt start, Pt ctrl, Pt end, float startW, float endW, bool outlineOnLeft, float outlineAlpha) {
+         using namespace Gdiplus;
+         constexpr int steps = 14;
+         std::vector<PointF> leftEdge, rightEdge;
+@@ -711,63 +662,15 @@ private:
+         float pawR = endW * 0.58f;
+         RectF pawRect(end.x - pawR, end.y - pawR * 0.85f, pawR * 2.0f, pawR * 1.7f);
+ 
+-        if (coat == CatCoatTheme::ClassicBlack) {
+-            SolidBrush b(catBlack());
+-            g.FillPath(&b, &limbPath);
+-            g.FillEllipse(&b, pawRect);
+-        } else {
+-            // Pad gradient endpoints beyond limb geometry + use WrapModeTileFlipXY so GDI+
+-            // NEVER wraps t < 0 shoulder corners around to t = 1.0 dark espresso!
+-            float dx = end.x - start.x;
+-            float dy = end.y - start.y;
+-            float dist = std::hypot(dx, dy);
+-            float ux = (dist > 1.0f) ? (dx / dist) : 0.0f;
+-            float uy = (dist > 1.0f) ? (dy / dist) : 1.0f;
+-            dist = std::max(1.0f, dist);
+-            float padStart = startW + 18.0f;
+-            float padEnd = endW + 18.0f;
+-            float totalLen = padStart + dist + padEnd;
+-
+-            PointF gStart(start.x - ux * padStart, start.y - uy * padStart);
+-            PointF gEnd(end.x + ux * padEnd, end.y + uy * padEnd);
+-
+-            LinearGradientBrush grad(gStart, gEnd, siameseCream(0), siamesePoint(255));
+-            grad.SetWrapMode(WrapModeTileFlipXY);
+-            Color cols[6] = {
+-                siameseCream(0),
+-                siameseCream(0),
+-                siameseCream(255),
+-                siameseMocha(255),
+-                siamesePoint(255),
+-                siamesePoint(255)
+-            };
+-            REAL pos[6] = {
+-                0.0f,
+-                padStart / totalLen,
+-                (padStart + dist * 0.16f) / totalLen,
+-                (padStart + dist * 0.48f) / totalLen,
+-                (padStart + dist * 0.78f) / totalLen,
+-                1.0f
+-            };
+-            grad.SetInterpolationColors(cols, pos, 6);
+-            g.FillPath(&grad, &limbPath);
+-
+-            SolidBrush pawBrush(siamesePoint());
+-            g.FillEllipse(&pawBrush, pawRect);
+-
+-            const auto& outerEdge = outlineOnLeft ? rightEdge : leftEdge;
+-            Pen op(siameseOutline(184), 1.25f);
+-            op.SetStartCap(LineCapRound); op.SetEndCap(LineCapRound); op.SetLineJoin(LineJoinRound);
+-            g.DrawLines(&op, outerEdge.data() + 3, (INT)outerEdge.size() - 4);
+-        }
++        SolidBrush b(catBlack());
++        g.FillPath(&b, &limbPath);
++        g.FillEllipse(&b, pawRect);
+ 
+         const auto& hiEdge = outlineOnLeft ? leftEdge : rightEdge;
+         int startIdx = 2;
+         int endIdx = (int)((hiEdge.size() - 1) * 0.68f);
+         if (endIdx > startIdx) {
+-            Color sc = (coat == CatCoatTheme::Siamese)
+-                ? siameseOutline((BYTE)(outlineAlpha * 199))
+-                : contourMint((BYTE)(outlineAlpha * 229));
++            Color sc = contourMint((BYTE)(outlineAlpha * 229));
+             Pen hp(sc, 1.35f);
+             hp.SetStartCap(LineCapRound); hp.SetEndCap(LineCapRound); hp.SetLineJoin(LineJoinRound);
+             g.DrawLines(&hp, hiEdge.data() + startIdx, endIdx - startIdx + 1);
+diff --git a/windows/src/CursorResources.h b/windows/src/CursorResources.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..217576369c2e83d5c41c2a775009a30a8365411b
+--- /dev/null
++++ b/windows/src/CursorResources.h
+@@ -0,0 +1,13 @@
++#pragma once
++
++#define SWC_CURSOR_SCRIPT 101
++#define SWC_CURSOR_NORMAL 102
++#define SWC_CURSOR_TEXT 103
++#define SWC_CURSOR_BUSY_ANIMATED 104
++#define SWC_CURSOR_BUSY 105
++#define SWC_CURSOR_HOVER 106
++#define SWC_CURSOR_PRESSED_ANIMATED 107
++#define SWC_CURSOR_PRESSED 108
++
++#define SWC_NATIVE_HOVER 109
++#define SWC_NATIVE_PRESSED 110
+diff --git a/windows/src/CursorSkin.hpp b/windows/src/CursorSkin.hpp
+new file mode 100644
+index 0000000000000000000000000000000000000000..1230ce43481fad3523e4b8c6d79ea064f44c124c
+--- /dev/null
++++ b/windows/src/CursorSkin.hpp
+@@ -0,0 +1,180 @@
++#pragma once
++
++#include <windows.h>
++#include <shlobj.h>
++#include <string>
++#include "CursorResources.h"
++#include "ProductName.hpp"
++
++class CursorSkin {
++public:
++    bool enabled() const { return overlayEnabled_; }
++    bool installed() const { return installedRoles_ == 3; }
++    bool hasActiveRoles() const { return overlayEnabled_ || installedRoles_ != 0 || previousRoles_ != 0; }
++    bool changing() const { return process_ != nullptr; }
++
++    void refresh() {
++        installedRoles_ = countRoles(dataDirectory(), L"FatCat");
++        previousRoles_ = 0;
++        for (const auto& name : previousProductNames()) {
++            previousRoles_ += countRoles(dataDirectory(name), name);
++        }
++
++        overlayEnabled_ = installedRoles_ > 0 || previousRoles_ > 0;
++        if (readOverlaySelection(settingsKey_, overlayEnabled_)) return;
++        for (const auto& name : previousProductNames()) {
++            if (readOverlaySelection(L"Software\\" + name, overlayEnabled_)) return;
++        }
++    }
++
++    static HCURSOR loadInteractionCursor(const wchar_t* fileName) {
++        const auto directory = dataDirectory();
++        if (directory.empty()) return nullptr;
++        return LoadCursorFromFileW((directory + L"\\Cursors\\" + fileName).c_str());
++    }
++
++    bool startChange(bool apply) {
++        if (changing()) return false;
++        const auto directory = dataDirectory();
++        if (directory.empty() || !ensureDirectory(directory)) return false;
++
++        if (apply && !exportCursors(directory + L"\\Cursors")) return false;
++        const auto setup = directory + L"\\FatCat-Cursor.ps1";
++        if (!exportResource(SWC_CURSOR_SCRIPT, directory, setup)) return false;
++
++        wchar_t system[MAX_PATH] = {};
++        const UINT length = GetSystemDirectoryW(system, MAX_PATH);
++        if (length == 0 || length >= MAX_PATH) return false;
++
++        const std::wstring powershell = std::wstring(system) + L"\\WindowsPowerShell\\v1.0\\powershell.exe";
++        std::wstring command = L"\"" + powershell +
++            L"\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File \"" + setup +
++            L"\" -Mode " + (apply ? L"Apply" : L"Restore");
++
++        STARTUPINFOW startup = {};
++        startup.cb = sizeof(startup);
++        PROCESS_INFORMATION process = {};
++        if (!CreateProcessW(powershell.c_str(), command.data(), nullptr, nullptr, FALSE,
++                            CREATE_NO_WINDOW, nullptr, nullptr, &startup, &process)) return false;
++        CloseHandle(process.hThread);
++        requestedEnable_ = apply;
++        process_ = process.hProcess;
++        return true;
++    }
++
++    bool finishChange(DWORD& exitCode) {
++        if (!changing()) return false;
++
++        const DWORD status = WaitForSingleObject(process_, 0);
++        if (status == WAIT_TIMEOUT) return false;
++
++        exitCode = ERROR_GEN_FAILURE;
++        if (status == WAIT_OBJECT_0) GetExitCodeProcess(process_, &exitCode);
++        close();
++        refresh();
++        if (exitCode == ERROR_SUCCESS) {
++            overlayEnabled_ = requestedEnable_;
++            const DWORD selected = requestedEnable_ ? 1 : 0;
++            RegSetKeyValueW(HKEY_CURRENT_USER, settingsKey_, L"CatCursorEnabled",
++                            REG_DWORD, &selected, sizeof(selected));
++        }
++        return true;
++    }
++
++    void close() {
++        if (process_) CloseHandle(process_);
++        process_ = nullptr;
++    }
++
++private:
++    static constexpr const wchar_t* settingsKey_ = L"Software\\FatCat";
++    bool overlayEnabled_ = false;
++    bool requestedEnable_ = false;
++    HANDLE process_ = nullptr;
++    int installedRoles_ = 0;
++    int previousRoles_ = 0;
++
++    static bool readOverlaySelection(const std::wstring& key, bool& enabled) {
++        DWORD selected = 0;
++        DWORD size = sizeof(selected);
++        if (RegGetValueW(HKEY_CURRENT_USER, key.c_str(), L"CatCursorEnabled",
++                         RRF_RT_REG_DWORD, nullptr, &selected, &size) != ERROR_SUCCESS) return false;
++        enabled = selected != 0;
++        return true;
++    }
++
++    static std::wstring dataDirectory(const std::wstring& name = L"FatCat") {
++        wchar_t local[MAX_PATH] = {};
++        if (FAILED(SHGetFolderPathW(nullptr, CSIDL_LOCAL_APPDATA, nullptr, SHGFP_TYPE_CURRENT, local))) return {};
++        return std::wstring(local) + L"\\" + name + L"CursorEdition";
++    }
++
++    static bool ensureDirectory(const std::wstring& path) {
++        if (CreateDirectoryW(path.c_str(), nullptr)) return true;
++        const DWORD attributes = GetFileAttributesW(path.c_str());
++        return attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
++    }
++
++    static bool exportResource(int id, const std::wstring& directory, const std::wstring& path) {
++        const HMODULE module = GetModuleHandleW(nullptr);
++        const HRSRC resource = FindResourceW(module, MAKEINTRESOURCEW(id), RT_RCDATA);
++        if (!resource) return false;
++
++        const HGLOBAL loaded = LoadResource(module, resource);
++        const DWORD size = SizeofResource(module, resource);
++        const void* bytes = loaded ? LockResource(loaded) : nullptr;
++        if (!bytes || size == 0) return false;
++
++        wchar_t temporary[MAX_PATH] = {};
++        if (!GetTempFileNameW(directory.c_str(), L"KRC", 0, temporary)) return false;
++        const HANDLE file = CreateFileW(temporary, GENERIC_WRITE, 0, nullptr, TRUNCATE_EXISTING,
++                                        FILE_ATTRIBUTE_NORMAL, nullptr);
++        bool written = false;
++        if (file != INVALID_HANDLE_VALUE) {
++            DWORD count = 0;
++            written = WriteFile(file, bytes, size, &count, nullptr) && count == size;
++            CloseHandle(file);
++        }
++
++        if (written && MoveFileExW(temporary, path.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) return true;
++        DeleteFileW(temporary);
++        return false;
++    }
++
++    static bool exportCursors(const std::wstring& directory) {
++        if (!ensureDirectory(directory)) return false;
++
++        struct CursorFile { int resource; const wchar_t* name; };
++        constexpr CursorFile cursors[] = {
++            {SWC_CURSOR_NORMAL, L"FatCat-Normal.cur"},
++            {SWC_CURSOR_TEXT, L"FatCat-Text.cur"},
++            {SWC_CURSOR_BUSY_ANIMATED, L"FatCat-Busy.ani"},
++            {SWC_CURSOR_BUSY, L"FatCat-Busy.cur"},
++            {SWC_CURSOR_HOVER, L"FatCat-Cat-Hover.cur"},
++            {SWC_CURSOR_PRESSED_ANIMATED, L"FatCat-Pressed.ani"},
++            {SWC_CURSOR_PRESSED, L"FatCat-Pressed.cur"}
++        };
++        for (const auto& cursor : cursors) {
++            if (!exportResource(cursor.resource, directory, directory + L"\\" + cursor.name)) return false;
++        }
++        return true;
++    }
++
++    static int countRoles(const std::wstring& directory, const std::wstring& name) {
++        if (directory.empty()) return 0;
++        const auto prefix = directory + L"\\Cursors\\" + name;
++        int roles = 0;
++        if (matchesFile(L"Arrow", prefix + L"-Normal.cur")) ++roles;
++        if (matchesFile(L"Wait", prefix + L"-Busy.ani") || matchesFile(L"Wait", prefix + L"-Busy.cur")) ++roles;
++        if (matchesFile(L"IBeam", prefix + L"-Text.cur")) ++roles;
++        return roles;
++    }
++
++    static bool matchesFile(const wchar_t* role, const std::wstring& file) {
++        wchar_t value[MAX_PATH] = {};
++        DWORD size = sizeof(value);
++        const LSTATUS status = RegGetValueW(HKEY_CURRENT_USER, L"Control Panel\\Cursors", role,
++                                            RRF_RT_REG_SZ | RRF_RT_REG_EXPAND_SZ | RRF_NOEXPAND, nullptr, value, &size);
++        return status == ERROR_SUCCESS && _wcsicmp(value, file.c_str()) == 0;
++    }
++};
+diff --git a/windows/src/PettingReaction.hpp b/windows/src/PettingReaction.hpp
+new file mode 100644
+index 0000000000000000000000000000000000000000..21f3148dfc8a9c382fd378bfdd80af5657abab67
+--- /dev/null
++++ b/windows/src/PettingReaction.hpp
+@@ -0,0 +1,62 @@
++#pragma once
++
++#include <algorithm>
++#include <cmath>
++
++class PettingReaction {
++public:
++    void stroke(double now) {
++        update(now);
++        const double gap = now - lastStroke_;
++        lastStroke_ = now;
++        if (annoyed()) return;
++
++        strokeTime_ = gap <= StrokeGap ? strokeTime_ + gap : 0.0;
++        if (strokeTime_ >= PettingLimit) {
++            annoyedSince_ = now;
++            strokeTime_ = 0.0;
++        }
++    }
++
++    void update(double now) {
++        if (now - lastStroke_ >= ReleaseGap &&
++            annoyed() && now - annoyedSince_ >= PopDuration + WagDuration) {
++            annoyedSince_ = -1.0;
++        }
++    }
++
++    bool annoyed() const { return annoyedSince_ >= 0.0; }
++
++    struct TailMotion {
++        float lift = 0.0f;
++        float swing = 0.0f;
++    };
++
++    TailMotion tailMotion(double now) const {
++        if (!annoyed()) return {};
++        const double elapsed = now - annoyedSince_;
++        if (elapsed < 0.0) return {};
++        constexpr double pi = 3.141592653589793;
++
++        if (elapsed < PopDuration) {
++            const double progress = elapsed / PopDuration;
++            const double pulse = std::sin(progress * 3.0 * pi);
++            return {static_cast<float>(pulse * pulse * (1.0 - progress * 0.40)), 0.0f};
++        }
++
++        const double progress = (elapsed - PopDuration) / WagDuration;
++        const double amplitude = 1.0 - std::min(progress, 1.0) * 0.32;
++        return {0.0f, static_cast<float>(std::sin(progress * 4.0 * pi) * amplitude)};
++    }
++
++private:
++    static constexpr double PettingLimit = 2.5;
++    static constexpr double StrokeGap = 0.18;
++    static constexpr double ReleaseGap = 0.65;
++    static constexpr double PopDuration = 0.33;
++    static constexpr double WagDuration = 0.88;
++
++    double lastStroke_ = -1.0;
++    double strokeTime_ = 0.0;
++    double annoyedSince_ = -1.0;
++};
+diff --git a/windows/src/ProductName.hpp b/windows/src/ProductName.hpp
+new file mode 100644
+index 0000000000000000000000000000000000000000..8de02898517ae06b0ec0a4aa6ed3542131934fb0
+--- /dev/null
++++ b/windows/src/ProductName.hpp
+@@ -0,0 +1,8 @@
++#pragma once
++#include <array>
++#include <string>
++
++// The former registry and cursor paths are read only for upgrades.
++inline std::array<std::wstring, 2> previousProductNames() {
++    return {std::wstring(L"Sweet") + L"Cat", std::wstring(L"Kuro") + L"Cat"};
++}
+diff --git a/windows/src/main.cpp b/windows/src/main.cpp
+index 1aa93529bfcb9654928a6ef3243b800f6c872626..9495404a9b36d93d29422cc3f306eb364d2971c7 100644
+--- a/windows/src/main.cpp
++++ b/windows/src/main.cpp
+@@ -12,6 +12,7 @@
+ #include "InputEngine.hpp"
+ #include "CatPhysics.hpp"
+ #include "CatRenderer.hpp"
++#include "CursorSkin.hpp"
+ 
+ #pragma comment(lib, "user32.lib")
+ #pragma comment(lib, "gdi32.lib")
+@@ -24,6 +25,8 @@ namespace {
+ constexpr UINT WM_TRAYICON = WM_APP + 1;
+ constexpr UINT WM_WAKE_EXISTING = WM_APP + 2;
+ constexpr UINT_PTR TIMER_RENDER = 1;
++constexpr UINT_PTR TIMER_PET_CURSOR = 2;
++constexpr UINT_PTR TIMER_CURSOR_SKIN = 3;
+ constexpr int HOTKEY_CLICKTHROUGH_ID = 101;
+ UINT g_msgTaskbarCreated = 0;
+ 
+@@ -35,8 +38,8 @@ enum MenuCmd : UINT {
+     CMD_TOGGLE_BADGES,
+     CMD_TOGGLE_FOOT,
+     CMD_TOGGLE_PET,
+-    CMD_COAT_BLACK,
+-    CMD_COAT_SIAMESE,
++    CMD_CURSOR_SKIN_BLACK,
++    CMD_CURSOR_SKIN_RESTORE,
+     CMD_KB_MILK,
+     CMD_KB_HACKER,
+     CMD_KB_RETRO,
+@@ -58,6 +61,10 @@ struct AppState {
+     HWND hwnd = nullptr;
+     HWND menuOwnerHwnd = nullptr; // Non-NOACTIVATE helper window so TrackPopupMenu from tray NEVER fails!
+     HICON trayIcon = nullptr;
++    HCURSOR petHoverCursor = nullptr;
++    HCURSOR petPressedCursor = nullptr;
++    bool showPressedCursor = false;
++    CursorSkin cursorSkin;
+     NOTIFYICONDATAW nid = {};
+ 
+     CatSettings settings;
+@@ -126,7 +133,14 @@ HICON createCatTrayIcon();
+ std::wstring getCurrentExeQuotedPath() {
+     wchar_t buf[MAX_PATH * 2] = {};
+     DWORD len = GetModuleFileNameW(nullptr, buf, (DWORD)(sizeof(buf) / sizeof(buf[0]) - 1));
+-    if (len == 0) return L"";
++    if (len == 0 || len >= sizeof(buf) / sizeof(buf[0]) - 1) return {};
++
++    wchar_t temporary[MAX_PATH * 2] = {};
++    const DWORD tempLength = GetTempPathW(static_cast<DWORD>(sizeof(temporary) / sizeof(temporary[0])), temporary);
++    if (tempLength > 0 && tempLength <= len &&
++        CompareStringOrdinal(buf, static_cast<int>(tempLength), temporary, static_cast<int>(tempLength), TRUE) == CSTR_EQUAL) {
++        return {};
++    }
+     return L"\"" + std::wstring(buf, len) + L"\"";
+ }
+ 
+@@ -136,9 +150,15 @@ bool isAutoStartEnabled() {
+         return false;
+     }
+     DWORD type = 0, size = 0;
+-    bool exists = (RegQueryValueExW(hKey, L"KuroCat", nullptr, &type, nullptr, &size) == ERROR_SUCCESS && size > 0);
++    const auto exists = [&](const wchar_t* name) {
++        return RegQueryValueExW(hKey, name, nullptr, &type, nullptr, &size) == ERROR_SUCCESS && size > 0;
++    };
++    bool enabled = exists(L"FatCat");
++    for (const auto& name : previousProductNames()) {
++        if (exists(name.c_str())) enabled = true;
++    }
+     RegCloseKey(hKey);
+-    return exists;
++    return enabled;
+ }
+ 
+ bool setAutoStartEnabled(bool enable) {
+@@ -150,11 +170,17 @@ bool setAutoStartEnabled(bool enable) {
+     if (enable) {
+         std::wstring cmd = getCurrentExeQuotedPath();
+         if (!cmd.empty()) {
+-            ok = (RegSetValueExW(hKey, L"KuroCat", 0, REG_SZ, (const BYTE*)cmd.c_str(), (DWORD)((cmd.size() + 1) * sizeof(wchar_t))) == ERROR_SUCCESS);
++            ok = (RegSetValueExW(hKey, L"FatCat", 0, REG_SZ, (const BYTE*)cmd.c_str(), (DWORD)((cmd.size() + 1) * sizeof(wchar_t))) == ERROR_SUCCESS);
+         }
+     } else {
+-        LSTATUS st = RegDeleteValueW(hKey, L"KuroCat");
+-        ok = (st == ERROR_SUCCESS || st == ERROR_FILE_NOT_FOUND);
++        const LSTATUS current = RegDeleteValueW(hKey, L"FatCat");
++        ok = current == ERROR_SUCCESS || current == ERROR_FILE_NOT_FOUND;
++    }
++    if (ok) {
++        for (const auto& name : previousProductNames()) {
++            const LSTATUS status = RegDeleteValueW(hKey, name.c_str());
++            if (status != ERROR_SUCCESS && status != ERROR_FILE_NOT_FOUND) ok = false;
++        }
+     }
+     RegCloseKey(hKey);
+     return ok;
+@@ -178,7 +204,7 @@ void registerTrayIcon(AppState& app) {
+     app.nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+     app.nid.uCallbackMessage = WM_TRAYICON;
+     app.nid.hIcon = app.trayIcon;
+-    wcscpy_s(app.nid.szTip, L"KuroCat \u9ED1\u732B\u952E\u76D8\u684C\u5BA0 (\u53F3\u952E/\u5DE6\u952E\u6253\u5F00\u83DC\u5355)");
++    wcscpy_s(app.nid.szTip, L"FatCat \u9ED1\u732B\u952E\u76D8\u684C\u5BA0 (\u53F3\u952E/\u5DE6\u952E\u6253\u5F00\u83DC\u5355)");
+     Shell_NotifyIconW(NIM_ADD, &app.nid);
+ }
+ 
+@@ -258,6 +284,24 @@ void setClickThrough(HWND hwnd, bool transparent) {
+     }
+ }
+ 
++void loadInteractionCursors(AppState& app) {
++    const HINSTANCE module = GetModuleHandleW(nullptr);
++    if (!app.petHoverCursor) app.petHoverCursor = LoadCursorW(module, MAKEINTRESOURCEW(SWC_NATIVE_HOVER));
++    if (!app.petHoverCursor) app.petHoverCursor = CursorSkin::loadInteractionCursor(L"FatCat-Cat-Hover.cur");
++    if (!app.petPressedCursor) {
++        app.petPressedCursor = CursorSkin::loadInteractionCursor(L"FatCat-Pressed.ani");
++        if (!app.petPressedCursor) app.petPressedCursor = LoadCursorW(module, MAKEINTRESOURCEW(SWC_NATIVE_PRESSED));
++    }
++}
++
++void setOverlayCursor(const AppState& app) {
++    HCURSOR cursor = nullptr;
++    if (app.cursorSkin.enabled()) {
++        cursor = app.showPressedCursor && app.petPressedCursor ? app.petPressedCursor : app.petHoverCursor;
++    }
++    SetCursor(cursor ? cursor : LoadCursorW(nullptr, app.cursorSkin.enabled() ? IDC_ARROW : IDC_HAND));
++}
++
+ void showContextMenu(AppState& app, POINT screenPt) {
+     HMENU menu = CreatePopupMenu();
+ 
+@@ -284,11 +328,20 @@ void showContextMenu(AppState& app, POINT screenPt) {
+     AppendMenuW(menu, MF_STRING | (app.settings.petInteraction ? MF_CHECKED : 0), CMD_TOGGLE_PET, L"\u6478\u5934/\u6478\u80CC\u95ED\u773C\u4E92\u52A8");
+     AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+ 
+-    // Cat Coat Skin submenu
+-    HMENU coatMenu = CreatePopupMenu();
+-    AppendMenuW(coatMenu, MF_STRING | (app.settings.coatTheme == CatCoatTheme::ClassicBlack ? MF_CHECKED : 0), CMD_COAT_BLACK, L"\u7ECF\u5178\u5C0F\u9ED1\u732B (\u539F\u7248)");
+-    AppendMenuW(coatMenu, MF_STRING | (app.settings.coatTheme == CatCoatTheme::Siamese ? MF_CHECKED : 0), CMD_COAT_SIAMESE, L"\u6316\u7164\u66B9\u7F57\u732B");
+-    AppendMenuW(menu, MF_POPUP, (UINT_PTR)coatMenu, L"\u732B\u54AA\u76AE\u80A4");
++    app.cursorSkin.refresh();
++    HMENU cursorMenu = CreatePopupMenu();
++    if (cursorMenu) {
++        const bool changing = app.cursorSkin.changing();
++        AppendMenuW(cursorMenu, MF_STRING | (changing ? MF_GRAYED : 0) |
++            (app.cursorSkin.enabled() ? MF_CHECKED : 0) |
++            (app.cursorSkin.enabled() && app.cursorSkin.installed() ? MF_GRAYED : 0),
++            CMD_CURSOR_SKIN_BLACK, L"使用小黑猫指针（悬停笑脸）");
++        AppendMenuW(cursorMenu, MF_STRING | (changing ? MF_GRAYED : 0) |
++            (!app.cursorSkin.hasActiveRoles() ? MF_CHECKED | MF_GRAYED : 0),
++            CMD_CURSOR_SKIN_RESTORE, L"恢复原来的指针");
++        if (!AppendMenuW(menu, MF_POPUP, reinterpret_cast<UINT_PTR>(cursorMenu),
++                         changing ? L"指针皮肤（正在切换）" : L"指针皮肤")) DestroyMenu(cursorMenu);
++    }
+ 
+     // Keyboard Theme submenu
+     HMENU kbMenu = CreatePopupMenu();
+@@ -300,7 +353,7 @@ void showContextMenu(AppState& app, POINT screenPt) {
+     // Eye Color submenu
+     HMENU eyeMenu = CreatePopupMenu();
+     AppendMenuW(eyeMenu, MF_STRING | (app.settings.eyeTheme == EyeColorTheme::NeonChartreuse ? MF_CHECKED : 0), CMD_EYE_LIME, L"\u7ECF\u5178\u8367\u5149\u9EC4\u7EFF (\u539F\u7248)");
+-    AppendMenuW(eyeMenu, MF_STRING | (app.settings.eyeTheme == EyeColorTheme::SiameseBlue ? MF_CHECKED : 0), CMD_EYE_BLUE, L"\u66B9\u7F57\u5B9D\u77F3\u84DD");
++    AppendMenuW(eyeMenu, MF_STRING | (app.settings.eyeTheme == EyeColorTheme::GemBlue ? MF_CHECKED : 0), CMD_EYE_BLUE, L"\u5B9D\u77F3\u84DD");
+     AppendMenuW(eyeMenu, MF_STRING | (app.settings.eyeTheme == EyeColorTheme::WarmAmber ? MF_CHECKED : 0), CMD_EYE_AMBER, L"\u7425\u73C0\u91D1\u77B3");
+     AppendMenuW(eyeMenu, MF_STRING | (app.settings.eyeTheme == EyeColorTheme::IceCyan ? MF_CHECKED : 0), CMD_EYE_CYAN, L"\u51B0\u6676\u6D45\u84DD");
+     AppendMenuW(menu, MF_POPUP, (UINT_PTR)eyeMenu, L"\u77B3\u8272\u5207\u6362");
+@@ -319,7 +372,7 @@ void showContextMenu(AppState& app, POINT screenPt) {
+     AppendMenuW(menu, MF_STRING, CMD_DEMO_BURST, L"\u6F14\u793A\u6253\u5B57\u52A8\u753B");
+     AppendMenuW(menu, MF_STRING, CMD_RESET_POS, L"\u91CD\u7F6E\u4F4D\u7F6E\u5230\u53F3\u4E0B\u89D2");
+     AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+-    AppendMenuW(menu, MF_STRING, CMD_QUIT, L"\u9000\u51FA KuroCat");
++    AppendMenuW(menu, MF_STRING, CMD_QUIT, L"\u9000\u51FA FatCat");
+ 
+     HWND menuOwner = app.menuOwnerHwnd ? app.menuOwnerHwnd : app.hwnd;
+     SetForegroundWindow(menuOwner);
+@@ -337,8 +390,8 @@ void showContextMenu(AppState& app, POINT screenPt) {
+             app.settings.saveToRegistry();
+             if (app.settings.fullClickThrough) {
+                 showTrayBalloon(app,
+-                    L"KuroCat \u5DF2\u5F00\u542F\u5B8C\u5168\u9F20\u6807\u7A7F\u900F",
+-                    L"\u53D6\u6D88\u65B9\u5F0F\uFF1A\u6309 Ctrl+Alt+Shift+P\uFF0C\u6216\u6309\u4F4F Alt \u952E\u53F3\u952E\u5C0F\u732B\uFF0C\u6216\u70B9\u53F3\u4E0B\u89D2\u6258\u76D8\u5C0F\u732B\u56FE\u6807\uFF0C\u6216\u518D\u6B21\u53CC\u51FB KuroCat.exe");
++                    L"FatCat \u5DF2\u5F00\u542F\u5B8C\u5168\u9F20\u6807\u7A7F\u900F",
++                    L"\u53D6\u6D88\u65B9\u5F0F\uFF1A\u6309 Ctrl+Alt+Shift+P\uFF0C\u6216\u6309\u4F4F Alt \u952E\u53F3\u952E\u5C0F\u732B\uFF0C\u6216\u70B9\u53F3\u4E0B\u89D2\u6258\u76D8\u5C0F\u732B\u56FE\u6807\uFF0C\u6216\u518D\u6B21\u53CC\u51FB FatCat.exe");
+             }
+             break;
+         case CMD_TOGGLE_TOPMOST:
+@@ -346,7 +399,9 @@ void showContextMenu(AppState& app, POINT screenPt) {
+             applyWindowScaleAndPosition(app, false);
+             break;
+         case CMD_TOGGLE_AUTOSTART:
+-            setAutoStartEnabled(!isAutoStartEnabled());
++            if (!setAutoStartEnabled(!isAutoStartEnabled())) {
++                showTrayBalloon(app, L"无法更改开机启动", L"如果从压缩包直接运行，请先提取 FatCat.exe。");
++            }
+             break;
+         case CMD_TOGGLE_BADGES:
+             app.settings.showKeyBadges = !app.settings.showKeyBadges;
+@@ -360,21 +415,21 @@ void showContextMenu(AppState& app, POINT screenPt) {
+             app.settings.petInteraction = !app.settings.petInteraction;
+             app.settings.saveToRegistry();
+             break;
+-        case CMD_COAT_BLACK:
+-            app.settings.coatTheme = CatCoatTheme::ClassicBlack;
+-            app.settings.eyeTheme = EyeColorTheme::NeonChartreuse;
+-            app.settings.saveToRegistry();
+-            break;
+-        case CMD_COAT_SIAMESE:
+-            app.settings.coatTheme = CatCoatTheme::Siamese;
+-            app.settings.eyeTheme = EyeColorTheme::SiameseBlue;
+-            app.settings.saveToRegistry();
++        case CMD_CURSOR_SKIN_BLACK:
++        case CMD_CURSOR_SKIN_RESTORE:
++            if (!app.cursorSkin.changing()) {
++                if (SetTimer(app.hwnd, TIMER_CURSOR_SKIN, 120, nullptr)) {
++                    if (app.cursorSkin.startChange(cmd == CMD_CURSOR_SKIN_BLACK)) break;
++                    KillTimer(app.hwnd, TIMER_CURSOR_SKIN);
++                }
++                MessageBoxW(menuOwner, L"无法准备指针文件或启动切换。请确认 Windows 可以写入当前账户的本地应用数据目录。", L"指针皮肤", MB_OK | MB_ICONERROR);
++            }
+             break;
+         case CMD_KB_MILK:   app.settings.keyboardTheme = KeyboardTheme::ClassicMilk; app.settings.saveToRegistry(); break;
+         case CMD_KB_HACKER: app.settings.keyboardTheme = KeyboardTheme::MidnightHacker; app.settings.saveToRegistry(); break;
+         case CMD_KB_RETRO:  app.settings.keyboardTheme = KeyboardTheme::RetroCream; app.settings.saveToRegistry(); break;
+         case CMD_EYE_LIME:  app.settings.eyeTheme = EyeColorTheme::NeonChartreuse; app.settings.saveToRegistry(); break;
+-        case CMD_EYE_BLUE:  app.settings.eyeTheme = EyeColorTheme::SiameseBlue; app.settings.saveToRegistry(); break;
++        case CMD_EYE_BLUE:  app.settings.eyeTheme = EyeColorTheme::GemBlue; app.settings.saveToRegistry(); break;
+         case CMD_EYE_AMBER: app.settings.eyeTheme = EyeColorTheme::WarmAmber; app.settings.saveToRegistry(); break;
+         case CMD_EYE_CYAN:  app.settings.eyeTheme = EyeColorTheme::IceCyan; app.settings.saveToRegistry(); break;
+         case CMD_SCALE_65:  app.settings.scale = 0.65f; applyWindowScaleAndPosition(app, true); break;
+@@ -443,7 +498,7 @@ void tickAndRender(AppState& app) {
+             if (zone == CatHitZone::Head || zone == CatHitZone::Body) {
+                 if (app.hasLastHover) {
+                     float d = std::hypot(cp.x - app.lastHoverCanvas.x, cp.y - app.lastHoverCanvas.y);
+-                    if (d > 1.2f && d < 80.0f) {
++                    if (d > 0.5f && d < 80.0f) {
+                         app.physics.registerPetStroke(cp, d, zone == CatHitZone::Head, app.settings);
+                     }
+                 }
+@@ -452,14 +507,15 @@ void tickAndRender(AppState& app) {
+             } else {
+                 app.hasLastHover = false;
+             }
+-            // Holding Alt temporarily unlocks click-through so user can ALWAYS right-click or drag the cat!
+-            bool altHeld = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
+-            bool clickThrough = (app.settings.fullClickThrough && !altHeld) || (zone == CatHitZone::None);
+-            setClickThrough(app.hwnd, clickThrough);
+         } else {
+             app.hasLastHover = false;
+-            setClickThrough(app.hwnd, true);
+         }
++        // A layered window already passes fully transparent pixels through.
++        // Keep painted pixels interactive even on the first mouse movement.
++        const bool altHeld = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
++        setClickThrough(app.hwnd, app.settings.fullClickThrough && !altHeld);
++    } else {
++        app.hasLastHover = false;
+     }
+ 
+     // Render 32-bit Premultiplied ARGB frame directly into DIB and present via UpdateLayeredWindow
+@@ -494,11 +550,39 @@ LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+ 
+         case WM_TIMER:
+             if (wParam == TIMER_RENDER && app) tickAndRender(*app);
++            if (wParam == TIMER_CURSOR_SKIN && app && hwnd == app->hwnd) {
++                DWORD exitCode = 0;
++                if (app->cursorSkin.finishChange(exitCode)) {
++                    KillTimer(hwnd, TIMER_CURSOR_SKIN);
++                    app->showPressedCursor = false;
++                    if (exitCode == 0 && app->cursorSkin.enabled()) loadInteractionCursors(*app);
++                    POINT pointer = {};
++                    if (GetCursorPos(&pointer) && WindowFromPoint(pointer) == hwnd) setOverlayCursor(*app);
++                    if (exitCode != 0) {
++                        MessageBoxW(app->menuOwnerHwnd,
++                                    L"指针切换失败。安装日志位于 %LOCALAPPDATA%\\FatCatCursorEdition\\Setup.log。",
++                                    L"指针皮肤", MB_OK | MB_ICONERROR);
++                    }
++                }
++            }
++            if (wParam == TIMER_PET_CURSOR && app) {
++                KillTimer(hwnd, TIMER_PET_CURSOR);
++                app->showPressedCursor = false;
++                POINT pointer = {};
++                if (GetCursorPos(&pointer) && WindowFromPoint(pointer) == hwnd) setOverlayCursor(*app);
++            }
+             return 0;
+ 
++        case WM_SETTINGCHANGE:
++            if (app && hwnd == app->hwnd && wParam == SPI_SETCURSORS) {
++                app->cursorSkin.refresh();
++                if (app->cursorSkin.enabled()) loadInteractionCursors(*app);
++            }
++            break;
++
+         case WM_SETCURSOR:
+-            if (LOWORD(lParam) == HTCLIENT) {
+-                SetCursor(LoadCursorW(nullptr, IDC_HAND));
++            if (app && hwnd == app->hwnd && LOWORD(lParam) == HTCLIENT) {
++                setOverlayCursor(*app);
+                 return TRUE;
+             }
+             break;
+@@ -506,6 +590,10 @@ LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+         case WM_LBUTTONDOWN: {
+             bool altHeld = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
+             if (app && (!app->settings.fullClickThrough || altHeld)) {
++                if (app->cursorSkin.enabled() && app->petPressedCursor && SetTimer(hwnd, TIMER_PET_CURSOR, 330, nullptr)) {
++                    app->showPressedCursor = true;
++                    SetCursor(app->petPressedCursor);
++                }
+                 app->isDragging = true;
+                 GetCursorPos(&app->dragStartCursor);
+                 RECT wr = {};
+@@ -517,6 +605,7 @@ LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+         }
+ 
+         case WM_MOUSEMOVE:
++            if (app && hwnd == app->hwnd) setOverlayCursor(*app);
+             if (app && app->isDragging) {
+                 POINT cur = {};
+                 GetCursorPos(&cur);
+@@ -560,11 +649,11 @@ LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+                 app->settings.saveToRegistry();
+                 if (app->settings.fullClickThrough) {
+                     showTrayBalloon(*app,
+-                        L"KuroCat \u5DF2\u5F00\u542F\u5B8C\u5168\u9F20\u6807\u7A7F\u900F",
++                        L"FatCat \u5DF2\u5F00\u542F\u5B8C\u5168\u9F20\u6807\u7A7F\u900F",
+                         L"\u518D\u6B21\u6309 Ctrl+Alt+Shift+P \u6216\u6309\u4F4F Alt \u53F3\u952E\u5C0F\u732B\u5373\u53EF\u53D6\u6D88");
+                 } else {
+                     showTrayBalloon(*app,
+-                        L"KuroCat \u5DF2\u53D6\u6D88\u5B8C\u5168\u9F20\u6807\u7A7F\u900F",
++                        L"FatCat \u5DF2\u53D6\u6D88\u5B8C\u5168\u9F20\u6807\u7A7F\u900F",
+                         L"\u73B0\u5728\u53EF\u4EE5\u6B63\u5E38\u62D6\u52A8\u3001\u6478\u5934\u548C\u53F3\u952E\u6253\u5F00\u83DC\u5355\u4E86");
+                 }
+             }
+@@ -572,7 +661,7 @@ LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+ 
+         case WM_WAKE_EXISTING:
+             if (app) {
+-                // Re-launching KuroCat.exe unlocks click-through, restores visibility & opens settings menu!
++                // Re-launching FatCat.exe unlocks click-through, restores visibility & opens settings menu!
+                 if (app->settings.fullClickThrough) {
+                     app->settings.fullClickThrough = false;
+                     app->settings.saveToRegistry();
+@@ -590,6 +679,7 @@ LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+         case WM_DESTROY:
+             if (hwnd == (app ? app->hwnd : nullptr)) {
+                 KillTimer(hwnd, TIMER_RENDER);
++                KillTimer(hwnd, TIMER_CURSOR_SKIN);
+                 if (app) {
+                     if (app->menuOwnerHwnd) {
+                         UnregisterHotKey(app->menuOwnerHwnd, HOTKEY_CLICKTHROUGH_ID);
+@@ -598,6 +688,7 @@ LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+                     }
+                     Shell_NotifyIconW(NIM_DELETE, &app->nid);
+                     if (app->trayIcon) DestroyIcon(app->trayIcon);
++                    app->cursorSkin.close();
+                     app->destroyBuffer();
+                 }
+                 PostQuitMessage(0);
+@@ -617,11 +708,11 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, PWSTR, int) {
+     // Enable crisp Per-Monitor V2 DPI awareness on Windows 10/11
+     SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+ 
+-    // Single-instance guard: re-launching KuroCat.exe wakes the existing cat,
++    // Single-instance guard: re-launching FatCat.exe wakes the existing cat,
+     // cancels full click-through, and pops up the menu so users NEVER get stuck!
+-    HANDLE hMutex = CreateMutexW(nullptr, TRUE, L"Local\\KuroCatDesktopPetSingleInstance");
++    HANDLE hMutex = CreateMutexW(nullptr, TRUE, L"Local\\FatCatDesktopPetSingleInstance");
+     if (GetLastError() == ERROR_ALREADY_EXISTS) {
+-        if (HWND existing = FindWindowW(L"KuroCatTrayOwnerClass", nullptr)) {
++        if (HWND existing = FindWindowW(L"FatCatTrayOwnerClass", nullptr)) {
+             PostMessageW(existing, WM_WAKE_EXISTING, 0, 0);
+         }
+         if (hMutex) CloseHandle(hMutex);
+@@ -637,8 +728,10 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, PWSTR, int) {
+     AppState app;
+     g_app = &app;
+     app.settings.loadFromRegistry();
++    app.cursorSkin.refresh();
++    if (app.cursorSkin.enabled()) loadInteractionCursors(app);
+ 
+-    // Refresh auto-start exe path if user enabled auto-start and moved KuroCat.exe
++    // Refresh auto-start exe path if user enabled auto-start and moved FatCat.exe
+     if (isAutoStartEnabled()) {
+         setAutoStartEnabled(true);
+     }
+@@ -650,8 +743,8 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, PWSTR, int) {
+     wc.cbSize = sizeof(wc);
+     wc.lpfnWndProc = wndProc;
+     wc.hInstance = hInst;
+-    wc.lpszClassName = L"KuroCatOverlayWindowClass";
+-    wc.hCursor = LoadCursorW(nullptr, IDC_ARROW);
++    wc.lpszClassName = L"FatCatOverlayWindowClass";
++    wc.hCursor = nullptr; // WM_SETCURSOR owns the pointer for this window.
+     RegisterClassExW(&wc);
+ 
+     // Dedicated hidden tray/menu owner window (NO WS_EX_NOACTIVATE / WS_EX_TRANSPARENT)
+@@ -659,13 +752,13 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, PWSTR, int) {
+     trayWc.cbSize = sizeof(trayWc);
+     trayWc.lpfnWndProc = wndProc;
+     trayWc.hInstance = hInst;
+-    trayWc.lpszClassName = L"KuroCatTrayOwnerClass";
++    trayWc.lpszClassName = L"FatCatTrayOwnerClass";
+     RegisterClassExW(&trayWc);
+ 
+     app.menuOwnerHwnd = CreateWindowExW(
+         WS_EX_TOOLWINDOW,
+         trayWc.lpszClassName,
+-        L"KuroCatTray",
++        L"FatCatTray",
+         WS_POPUP,
+         0, 0, 0, 0,
+         nullptr, nullptr, hInst, nullptr
+@@ -680,13 +773,14 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, PWSTR, int) {
+         computeDefaultOrigin(initW, initH, initX, initY);
+     }
+ 
+-    DWORD exStyle = WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE | WS_EX_TRANSPARENT
++    DWORD exStyle = WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE
++                  | (app.settings.fullClickThrough ? WS_EX_TRANSPARENT : 0)
+                   | (app.settings.alwaysOnTop ? WS_EX_TOPMOST : 0);
+ 
+     app.hwnd = CreateWindowExW(
+         exStyle,
+         wc.lpszClassName,
+-        L"KuroCat",
++        L"FatCat",
+         WS_POPUP,
+         initX, initY, initW, initH,
+         nullptr, nullptr, hInst, nullptr
